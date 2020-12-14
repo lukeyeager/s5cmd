@@ -681,7 +681,7 @@ func (s *s3Session) newSession(ctx context.Context, opts Options) (*session.Sess
 	// get region of the bucket and create session accordingly
 	// if the region is not provided, it means we want region-independent session
 	// for operations such as listing buckets, making a new bucket, ...
-	if opts.bucket != "" {
+	if opts.bucket != "" && aws.StringValue(sess.Config.Region) == "" {
 		region, err := s3manager.GetBucketRegion(ctx, sess, opts.bucket, "")
 		if err != nil {
 			return nil, err
